@@ -18,6 +18,12 @@
   width: 100%;
 }
 
+.h2Header {
+  max-width: 575px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 @media screen and (min-width: 768px) {
   .container {
     max-width: 900px;
@@ -30,5 +36,10 @@
 
   .column-half {
     width: 50%;
+  }
+
+  .h2Header {
+    max-width: 900px;
+    padding: 0 3rem;
   }
 }
