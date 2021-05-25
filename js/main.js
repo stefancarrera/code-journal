@@ -52,11 +52,13 @@ window.addEventListener('DOMContentLoaded', function (event) {
   }
 });
 
+var $entryList = document.querySelector('#entryList');
 var $newButton = document.querySelector('.newButton');
 
 $newButton.addEventListener('click', function (event) {
   if (event.target.matches('.newButton')) {
     $entryForm.className = ' ';
+    $entryList.className = 'hidden';
   }
 });
 
@@ -77,4 +79,5 @@ $entryForm.addEventListener('submit', function (event) {
 
   $entryForm.className = 'hidden';
   $ul.prepend(renderPosts(newEntry));
+  $entryList.className = 'column-full';
 });
