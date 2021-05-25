@@ -62,14 +62,6 @@ button {
 .title-photo {
   display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-content: flex-start;
-}
-
-.imgBox {
-  display: flex;
-  align-content: center;
-  justify-content: center;
 }
 
 .form-actions {
