@@ -55,6 +55,11 @@ button {
   border: transparent;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 .title {
   margin-top: 0;
 }
@@ -72,4 +77,19 @@ button {
 input:focus,
 textarea:focus {
   border-color: #8955bd;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.entry-header > button {
+  width: 78.69px;
+  height: 37px;
+}
+
+.entry-h2 {
+  margin-top: 0;
 }
