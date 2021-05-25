@@ -26,3 +26,44 @@ $entryForm.addEventListener('submit', function (event) {
   $entryForm.reset();
 });
 /* exported data */
+
+var $ul = document.querySelector('ul');
+
+function renderPosts(entry) {
+  var $liItem = document.createElement('li');
+
+  var $outterDiv = document.createElement('div');
+  $outterDiv.className = 'row';
+  $liItem.appendChild($outterDiv);
+
+  var $imgDiv = document.createElement('div');
+  $imgDiv.className = 'column-half';
+  $outterDiv.appendChild($imgDiv);
+
+  var $img = document.createElement('img');
+  $img.setAttribute('src', entry.photoUrl);
+  $imgDiv.appendChild($img);
+
+  var $textDiv = document.createElement('div');
+  $textDiv.className = 'column-half';
+  $outterDiv.appendChild($textDiv);
+
+  var $title = document.createElement('h2');
+  $title.className = 'entry-h2';
+  var $titleText = document.createTextNode(entry.title);
+  $title.appendChild($titleText);
+  $textDiv.appendChild($title);
+
+  var $noteP = document.createElement('p');
+  var $noteText = document.createTextNode(entry.notes);
+  $noteP.appendChild($noteText);
+  $textDiv.appendChild($noteP);
+
+  return $liItem;
+}
+
+window.addEventListener('DOMContentLoaded', function (event) {
+  for (var entry of data.entries) {
+    $ul.appendChild(renderPosts(entry));
+  }
+});
