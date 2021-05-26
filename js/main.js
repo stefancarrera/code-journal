@@ -11,6 +11,21 @@ $photoUrl.addEventListener('input', function (event) {
   $img.src = event.target.value;
 });
 
+/* <li>
+  <div class="row">
+    <div class="column-half">
+      <img src="images/placeholder-image-square.jpg">
+            </div>
+      <div class="column-half">
+        <div class="title-editRow">
+          <h2 class="entry-h2">Title </h2>
+          <button class="fas fa-pen"></button>
+        </div>
+        <p>Text Content</p>
+      </div>
+    </div>
+</li> */
+
 var $ul = document.querySelector('ul');
 
 function renderPosts(entry) {
@@ -32,11 +47,19 @@ function renderPosts(entry) {
   $textDiv.className = 'column-half';
   $outterDiv.appendChild($textDiv);
 
+  var $titleDiv = document.createElement('div');
+  $titleDiv.className = 'title-editRow';
+  $textDiv.appendChild($titleDiv);
+
   var $title = document.createElement('h2');
   $title.className = 'entry-h2';
   var $titleText = document.createTextNode(entry.title);
   $title.appendChild($titleText);
-  $textDiv.appendChild($title);
+  $titleDiv.appendChild($title);
+
+  var $editBtn = document.createElement('button');
+  $editBtn.className = 'fas fa-pen';
+  $titleDiv.appendChild($editBtn);
 
   var $noteP = document.createElement('p');
   var $noteText = document.createTextNode(entry.notes);
