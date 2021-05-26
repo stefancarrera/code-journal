@@ -2,13 +2,13 @@
 /* exported data */
 
 var $photoUrl = document.querySelector('#photoUrl');
-var $img = document.querySelector('#photo-preview');
+var $imgEle = document.querySelector('#photo-preview');
 var $title = document.querySelector('#entry-title');
 var $notes = document.querySelector('#notes');
 var $entryForm = document.querySelector('form');
 
 $photoUrl.addEventListener('input', function (event) {
-  $img.src = event.target.value;
+  $imgEle.src = event.target.value;
 });
 
 /* <li>
@@ -30,6 +30,7 @@ var $ul = document.querySelector('ul');
 
 function renderPosts(entry) {
   var $liItem = document.createElement('li');
+  $liItem.setAttribute('entry-id', entry.entryId);
 
   var $outterDiv = document.createElement('div');
   $outterDiv.className = 'row';
@@ -97,10 +98,28 @@ $entryForm.addEventListener('submit', function (event) {
   data.nextEntryId++;
 
   data.entries.unshift(newEntry);
-  $img.src = 'images/placeholder-image-square.jpg';
+  $imgEle.src = 'images/placeholder-image-square.jpg';
   $entryForm.reset();
 
   $entryForm.className = 'hidden';
   $ul.prepend(renderPosts(newEntry));
   $entryList.className = 'column-full';
+});
+
+$ul.addEventListener('click', function (event) {
+  if (event.target.matches('.fa-pen')) {
+    $entryForm.className = ' ';
+    $entryList.className = 'hidden';
+  }
+  var $liContainer = event.target.closest('li');
+
+  for (var i = 0; i < data.entries.length; i++) {
+    if (parseInt($liContainer.getAttribute('entry-id')) === data.entries[i].entryId) {
+      data.editing = data.entries[i];
+      $imgEle.setAttribute('src', data.entries[i].photoUrl);
+      $title.value = data.entries[i].title;
+      $photoUrl.value = data.entries[i].photoUrl;
+      $notes.value = data.entries[i].notes;
+    }
+  }
 });
