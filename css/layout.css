@@ -18,10 +18,10 @@
   width: 100%;
 }
 
-.h2Header {
-  max-width: 575px;
-  margin: 0 auto;
-  padding: 0 2rem;
+.navBar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 @media screen and (min-width: 768px) {
@@ -36,10 +36,5 @@
 
   .column-half {
     width: 50%;
-  }
-
-  .h2Header {
-    max-width: 900px;
-    padding: 0 3rem;
   }
 }
