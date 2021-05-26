@@ -7,7 +7,7 @@ var $title = document.querySelector('#entry-title');
 var $notes = document.querySelector('#notes');
 var $entryForm = document.querySelector('form');
 
-$photoUrl.addEventListener('input', function (event) {
+$photoUrl.addEventListener('blur', function (event) {
   $imgEle.src = event.target.value;
 });
 
@@ -88,22 +88,39 @@ $newButton.addEventListener('click', function (event) {
 
 $entryForm.addEventListener('submit', function (event) {
   event.preventDefault();
-  var newEntry = {};
 
-  newEntry.title = $title.value;
-  newEntry.photoUrl = $photoUrl.value;
-  newEntry.notes = $notes.value;
-  newEntry.entryId = data.nextEntryId;
+  if (data.editing === null) {
+    var newEntry = {};
 
-  data.nextEntryId++;
+    newEntry.title = $title.value;
+    newEntry.photoUrl = $photoUrl.value;
+    newEntry.notes = $notes.value;
+    newEntry.entryId = data.nextEntryId;
 
-  data.entries.unshift(newEntry);
-  $imgEle.src = 'images/placeholder-image-square.jpg';
-  $entryForm.reset();
+    data.nextEntryId++;
 
-  $entryForm.className = 'hidden';
-  $ul.prepend(renderPosts(newEntry));
-  $entryList.className = 'column-full';
+    data.entries.unshift(newEntry);
+    $imgEle.src = 'images/placeholder-image-square.jpg';
+    $entryForm.reset();
+
+    $entryForm.className = 'hidden';
+    $ul.prepend(renderPosts(newEntry));
+    $entryList.className = 'column-full';
+  } else {
+    data.editing.title = $title.value;
+    data.editing.photoUrl = $photoUrl.value;
+    data.editing.notes = $notes.value;
+
+    $entryForm.className = 'hidden';
+    $entryList.className = 'column-full';
+    $imgEle.src = 'images/placeholder-image-square.jpg';
+    $entryForm.reset();
+    $ul.innerHTML = '';
+    for (var entry of data.entries) {
+      $ul.appendChild(renderPosts(entry));
+    }
+    data.editing = null;
+  }
 });
 
 $ul.addEventListener('click', function (event) {
