@@ -2,19 +2,35 @@
 /* exported data */
 
 var $photoUrl = document.querySelector('#photoUrl');
-var $img = document.querySelector('#photo-preview');
+var $imgEle = document.querySelector('#photo-preview');
 var $title = document.querySelector('#entry-title');
 var $notes = document.querySelector('#notes');
 var $entryForm = document.querySelector('form');
 
-$photoUrl.addEventListener('input', function (event) {
-  $img.src = event.target.value;
+$photoUrl.addEventListener('blur', function (event) {
+  $imgEle.src = event.target.value;
 });
+
+/* <li>
+  <div class="row">
+    <div class="column-half">
+      <img src="images/placeholder-image-square.jpg">
+            </div>
+      <div class="column-half">
+        <div class="title-editRow">
+          <h2 class="entry-h2">Title </h2>
+          <button class="fas fa-pen"></button>
+        </div>
+        <p>Text Content</p>
+      </div>
+    </div>
+</li> */
 
 var $ul = document.querySelector('ul');
 
 function renderPosts(entry) {
   var $liItem = document.createElement('li');
+  $liItem.setAttribute('entry-id', entry.entryId);
 
   var $outterDiv = document.createElement('div');
   $outterDiv.className = 'row';
@@ -32,11 +48,19 @@ function renderPosts(entry) {
   $textDiv.className = 'column-half';
   $outterDiv.appendChild($textDiv);
 
+  var $titleDiv = document.createElement('div');
+  $titleDiv.className = 'title-editRow';
+  $textDiv.appendChild($titleDiv);
+
   var $title = document.createElement('h2');
   $title.className = 'entry-h2';
   var $titleText = document.createTextNode(entry.title);
   $title.appendChild($titleText);
-  $textDiv.appendChild($title);
+  $titleDiv.appendChild($title);
+
+  var $editBtn = document.createElement('button');
+  $editBtn.className = 'fas fa-pen';
+  $titleDiv.appendChild($editBtn);
 
   var $noteP = document.createElement('p');
   var $noteText = document.createTextNode(entry.notes);
@@ -64,20 +88,55 @@ $newButton.addEventListener('click', function (event) {
 
 $entryForm.addEventListener('submit', function (event) {
   event.preventDefault();
-  var newEntry = {};
 
-  newEntry.title = $title.value;
-  newEntry.photoUrl = $photoUrl.value;
-  newEntry.notes = $notes.value;
-  newEntry.entryId = data.nextEntryId;
+  if (data.editing === null) {
+    var newEntry = {};
 
-  data.nextEntryId++;
+    newEntry.title = $title.value;
+    newEntry.photoUrl = $photoUrl.value;
+    newEntry.notes = $notes.value;
+    newEntry.entryId = data.nextEntryId;
 
-  data.entries.unshift(newEntry);
-  $img.src = 'images/placeholder-image-square.jpg';
-  $entryForm.reset();
+    data.nextEntryId++;
 
-  $entryForm.className = 'hidden';
-  $ul.prepend(renderPosts(newEntry));
-  $entryList.className = 'column-full';
+    data.entries.unshift(newEntry);
+    $imgEle.src = 'images/placeholder-image-square.jpg';
+    $entryForm.reset();
+
+    $entryForm.className = 'hidden';
+    $ul.prepend(renderPosts(newEntry));
+    $entryList.className = 'column-full';
+  } else {
+    data.editing.title = $title.value;
+    data.editing.photoUrl = $photoUrl.value;
+    data.editing.notes = $notes.value;
+
+    $entryForm.className = 'hidden';
+    $entryList.className = 'column-full';
+    $imgEle.src = 'images/placeholder-image-square.jpg';
+    $entryForm.reset();
+    $ul.innerHTML = '';
+    for (var entry of data.entries) {
+      $ul.appendChild(renderPosts(entry));
+    }
+    data.editing = null;
+  }
+});
+
+$ul.addEventListener('click', function (event) {
+  if (event.target.matches('.fa-pen')) {
+    $entryForm.className = ' ';
+    $entryList.className = 'hidden';
+  }
+  var $liContainer = event.target.closest('li');
+
+  for (var i = 0; i < data.entries.length; i++) {
+    if (parseInt($liContainer.getAttribute('entry-id')) === data.entries[i].entryId) {
+      data.editing = data.entries[i];
+      $imgEle.setAttribute('src', data.entries[i].photoUrl);
+      $title.value = data.entries[i].title;
+      $photoUrl.value = data.entries[i].photoUrl;
+      $notes.value = data.entries[i].notes;
+    }
+  }
 });
