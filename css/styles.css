@@ -1,3 +1,15 @@
+.deleteOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
 }
@@ -84,7 +96,7 @@ ul {
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 input:focus,
@@ -105,4 +117,14 @@ textarea:focus {
 
 .entry-h2 {
   margin-left: 0;
+}
+
+.delete {
+  color: red;
+  text-decoration: underline;
+  margin: 1.5rem 0 0 1rem;
+}
+
+.deleteHidden {
+  visibility: hidden;
 }

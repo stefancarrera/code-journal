@@ -123,10 +123,13 @@ $entryForm.addEventListener('submit', function (event) {
   }
 });
 
+var $deleteBtn = document.querySelector('.delete');
+
 $ul.addEventListener('click', function (event) {
   if (event.target.matches('.fa-pen')) {
     $entryForm.className = ' ';
     $entryList.className = 'hidden';
+    $deleteBtn.className = 'delete';
   }
   var $liContainer = event.target.closest('li');
 
@@ -138,5 +141,25 @@ $ul.addEventListener('click', function (event) {
       $photoUrl.value = data.entries[i].photoUrl;
       $notes.value = data.entries[i].notes;
     }
+  }
+});
+
+var $entriesNavBar = document.querySelector('.navSpan');
+$entriesNavBar.addEventListener('click', function (event) {
+  if (event.target.matches('.navSpan')) {
+    $entryForm.className = 'hidden';
+    $entryList.className = 'column-full';
+    $deleteBox.className = '.deleteBox hidden';
+    $deleteOverlay.className = '.deleteOverlay hidden';
+  }
+});
+
+var $deleteBox = document.querySelector('.deleteBox');
+var $deleteOverlay = document.querySelector('.deleteOverlay');
+
+$deleteBtn.addEventListener('click', function (event) {
+  if (event.target.matches('.delete')) {
+    $deleteBox.className = '.deleteBox';
+    $deleteOverlay.className = '.deleteOverlay';
   }
 });

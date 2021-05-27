@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="deleteOverlay hidden"></div>
+  <div class="deleteBox hidden"></div>
   <header>
     <div class="container">
       <h2 class="column-full">Code Journal<span class="navSpan">Entries</span></h2>
@@ -58,7 +60,8 @@
           placeholder="Enter your notes here"></textarea>
       </div>
       <div class="form-actions">
-          <button type="submit">Save</button>
+        <p class="delete deleteHidden">Delete Entry</p>
+        <button type="submit">Save</button>
       </div>
       </form>
     </div>
