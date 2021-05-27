@@ -1,6 +1,3 @@
-/* global data */
-/* exported data */
-
 var $photoUrl = document.querySelector('#photoUrl');
 var $imgEle = document.querySelector('#photo-preview');
 var $title = document.querySelector('#entry-title');
@@ -10,21 +7,6 @@ var $entryForm = document.querySelector('form');
 $photoUrl.addEventListener('blur', function (event) {
   $imgEle.src = event.target.value;
 });
-
-/* <li>
-  <div class="row">
-    <div class="column-half">
-      <img src="images/placeholder-image-square.jpg">
-            </div>
-      <div class="column-half">
-        <div class="title-editRow">
-          <h2 class="entry-h2">Title </h2>
-          <button class="fas fa-pen"></button>
-        </div>
-        <p>Text Content</p>
-      </div>
-    </div>
-</li> */
 
 var $ul = document.querySelector('ul');
 
@@ -123,10 +105,13 @@ $entryForm.addEventListener('submit', function (event) {
   }
 });
 
+var $deleteBtn = document.querySelector('.delete');
+
 $ul.addEventListener('click', function (event) {
   if (event.target.matches('.fa-pen')) {
     $entryForm.className = ' ';
     $entryList.className = 'hidden';
+    $deleteBtn.className = 'delete';
   }
   var $liContainer = event.target.closest('li');
 
@@ -138,5 +123,47 @@ $ul.addEventListener('click', function (event) {
       $photoUrl.value = data.entries[i].photoUrl;
       $notes.value = data.entries[i].notes;
     }
+  }
+});
+
+var $entriesNavBar = document.querySelector('.navSpan');
+$entriesNavBar.addEventListener('click', function (event) {
+  if (event.target.matches('.navSpan')) {
+    $entryForm.className = 'hidden';
+    $entryList.className = 'column-full';
+    $deleteOverlay.className = 'deleteOverlay hidden';
+  }
+});
+
+var $deleteBox = document.querySelector('div.deleteBox');
+var $deleteOverlay = document.querySelector('div.deleteOverlay');
+
+$deleteBtn.addEventListener('click', function (event) {
+  if (event.target.matches('.delete')) {
+    $deleteOverlay.className = 'deleteOverlay';
+  } else {
+    $deleteOverlay.className = 'deleteOverlay hidden';
+  }
+});
+
+$deleteBox.addEventListener('click', function (event) {
+  if (event.target.matches('.cancelBtn')) {
+    $deleteOverlay.className = 'deleteOverlay hidden';
+  } if (event.target.matches('.confirmBtn')) {
+    for (var x = 0; x < data.entries.length; x++) {
+      if (data.editing.entryId === data.entries[x].entryId) {
+        data.entries.splice(x, 1);
+      }
+      $deleteOverlay.className = 'deleteOverlay hidden';
+      $entryForm.className = 'hidden';
+      $entryList.className = 'column-full';
+      $imgEle.src = 'images/placeholder-image-square.jpg';
+      $entryForm.reset();
+      $ul.innerHTML = '';
+      for (var entry of data.entries) {
+        $ul.appendChild(renderPosts(entry));
+      }
+    }
+    data.editing = null;
   }
 });
