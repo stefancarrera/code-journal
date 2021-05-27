@@ -17,8 +17,15 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div class="deleteOverlay hidden"></div>
-  <div class="deleteBox hidden"></div>
+  <div class="deleteOverlay hidden">
+    <div class="deleteBox">
+      <div class="row confirmText">Are you sure you want to delete this entry?</div>
+      <div class="spaceBetween">
+        <button class="cancelBtn">CANCEL</button>
+        <button class="confirmBtn">CONFIRM</button>
+      </div>
+    </div>
+  </div>
   <header>
     <div class="container">
       <h2 class="column-full">Code Journal<span class="navSpan">Entries</span></h2>

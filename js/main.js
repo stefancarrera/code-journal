@@ -149,17 +149,25 @@ $entriesNavBar.addEventListener('click', function (event) {
   if (event.target.matches('.navSpan')) {
     $entryForm.className = 'hidden';
     $entryList.className = 'column-full';
-    $deleteBox.className = '.deleteBox hidden';
-    $deleteOverlay.className = '.deleteOverlay hidden';
+    $deleteOverlay.className = 'deleteOverlay hidden';
   }
 });
 
-var $deleteBox = document.querySelector('.deleteBox');
-var $deleteOverlay = document.querySelector('.deleteOverlay');
+var $deleteBox = document.querySelector('div.deleteBox');
+var $deleteOverlay = document.querySelector('div.deleteOverlay');
+// var $cancel = document.querySelector('.cancelBtn');
+// var $confirm = document.querySelector('.confirmBtn');
 
 $deleteBtn.addEventListener('click', function (event) {
   if (event.target.matches('.delete')) {
-    $deleteBox.className = '.deleteBox';
-    $deleteOverlay.className = '.deleteOverlay';
+    $deleteOverlay.className = 'deleteOverlay';
+  } else {
+    $deleteOverlay.className = 'deleteOverlay hidden';
+  }
+});
+
+$deleteBox.addEventListener('click', function (event) {
+  if (event.target.matches('.cancelBtn')) {
+    $deleteOverlay.className = 'deleteOverlay hidden';
   }
 });
